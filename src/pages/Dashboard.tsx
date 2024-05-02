@@ -1,51 +1,45 @@
+import DeviceStatus from "@/components/DeviceStatus";
 import MyResponsiveLine from "@/components/LineGraph";
-import QuickSummaryDataCard from "@/components/QuickSummaryDataCard";
-import MyResponsivePie from "@/components/TripGraph";
-import VehicleLogContainer from "@/components/VehicleLogContainer";
 
+// import MyResponsivePie from "@/components/TripGraph";
+import VehicleLogContainer from "@/components/VehicleLogContainer";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import QuickDataContainer from "@/components/QuickDataContainer";
 const Dashboard = () => {
+	const [date, setDate] = useState("");
+	useEffect(() => {
+		const currentDate = moment().format("YYYY-MM-DD");
+		setDate(currentDate);
+	}, []);
+
 	return (
 		<div className="ml-64">
 			<header className="  flex justify-between items-center p-4">
 				<h1 className="text-xl ">Overview</h1>
 				<div className="flex items-center space-x-4">
 					<span className="text-gray-400">
-						<input type="date"></input>
+						<input
+							type="date"
+							value={date}
+							onChange={(e) => setDate(e.target.value)}
+						></input>
 					</span>
 					<span></span>
 				</div>
 			</header>
-			<div className="flex flex-wrap gap-5 justify-center mt-8">
-				<QuickSummaryDataCard
-					title="Total passengers"
-					count="3289"
-					color="bg-[#E3F5FF]"
-				/>
-				<QuickSummaryDataCard
-					title="Employees"
-					count="3671"
-					color="bg-[#E5ECF6]"
-				/>
-				<QuickSummaryDataCard
-					title="Non-Employees"
-					count="156"
-					color="bg-[#E3F5FF]"
-				/>
-				<QuickSummaryDataCard
-					title="Vehicles"
-					count="231"
-					color="bg-[#E5ECF6]"
-				/>
+			<div>
+				<QuickDataContainer date={date}></QuickDataContainer>
 			</div>
 			<div className="flex flex-wrap mt-5 justify-center gap-4">
 				<div>
-					<VehicleLogContainer></VehicleLogContainer>
+					<VehicleLogContainer date={date}></VehicleLogContainer>
 				</div>
 				<div>
-					<MyResponsivePie></MyResponsivePie>
+					<DeviceStatus></DeviceStatus>
 				</div>
 			</div>
-			<MyResponsiveLine></MyResponsiveLine>
+			<MyResponsiveLine date={date}></MyResponsiveLine>
 		</div>
 	);
 };
