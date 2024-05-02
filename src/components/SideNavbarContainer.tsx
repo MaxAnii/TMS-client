@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Button } from "./ui/button";
 
 const SideNavbarContainer = ({ ...props }: { children: ReactNode }) => {
 	return (
@@ -10,7 +11,12 @@ const SideNavbarContainer = ({ ...props }: { children: ReactNode }) => {
 					</div>
 
 					<nav className="flex-1 overflow-y-auto ">{props.children}</nav>
-					<button>Logout</button>
+
+					<div className="flex justify-center mb-5 w-full">
+						<Button variant="destructive" className="w-full m-2">
+							Logout
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>
