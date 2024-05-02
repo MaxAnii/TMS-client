@@ -1,60 +1,67 @@
 import { ResponsiveLine } from "@nivo/line";
 import { Card } from "./ui/card";
-
-const MyResponsiveLine = () => {
-	function generateRandomData(count: number) {
-		const randomData = [];
-		const hours = [
-			"8:00 AM",
-			"10:00 AM",
-			"12:00 PM",
-			"2:00 PM",
-			"4:00 PM",
-			"6:00 PM",
-			"8:00 PM",
-		];
-
-		for (let i = 0; i < count; i++) {
-			const randomY = Math.floor(Math.random() * 81); // Generate random number between 0 and 80
-			randomData.push({
-				x: hours[i],
-				y: randomY,
-			});
+import { useEffect, useState } from "react";
+type responseDataType = {
+	device_id: string;
+	passengers_at_8_10: string;
+	passengers_at_10_12: string;
+	passengers_at_12_2: string;
+	passengers_at_2_4: string;
+	passengers_at_4_6: string;
+	passengers_at_6_8: string;
+}[];
+type comparisonDataType = {
+	id: string;
+	color: string;
+	data: { x: string; y: number }[];
+}[];
+const MyResponsiveLine = ({ ...props }: { date: string }) => {
+	const [data, setData] = useState<responseDataType>([]);
+	const [comparisonData, setComparisonData] = useState<comparisonDataType>([]);
+	const getComparisonData = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/passenger/comparison/${props.date}`
+			);
+			if (response.status === 200) {
+				const jsonData = await response.json();
+				setData(jsonData);
+			} else if (response.status === 404) {
+				setData([]);
+			}
+		} catch (error: any) {
+			console.log(error.message);
 		}
+	};
+	useEffect(() => {
+		getComparisonData();
+	}, [props.date]);
 
-		return randomData;
-	}
-	const data = [
-		{
-			id: "Vehicle 1",
-			color: "hsl(262, 70%, 50%)",
-			data: generateRandomData(7),
-		},
-		{
-			id: "Vehicle 2",
-			color: "hsl(141, 70%, 50%)",
-			data: generateRandomData(7),
-		},
-		{
-			id: "Vehicle 3",
-			color: "hsl(321, 70%, 50%)",
-			data: generateRandomData(7),
-		},
-		{
-			id: "Vehicle 4",
-			color: "hsl(335, 70%, 50%)",
-			data: generateRandomData(7),
-		},
-		{
-			id: "Vehicle 5",
-			color: "hsl(154, 70%, 50%)",
-			data: generateRandomData(7),
-		},
-	];
+	useEffect(() => {
+		setComparisonData([]);
+		if (data) {
+			const formattedData = data.map((device) => ({
+				id: device.device_id,
+				color: "hsl(" + Math.floor(Math.random() * 360) + ", 70%, 50%)",
+				data: [
+					{ x: "8:00 AM", y: parseInt(device.passengers_at_8_10) || 0 },
+					{ x: "10:00 AM", y: parseInt(device.passengers_at_10_12) || 0 },
+					{ x: "12:00 PM", y: parseInt(device.passengers_at_12_2) || 0 },
+					{ x: "2:00 PM", y: parseInt(device.passengers_at_2_4) || 0 },
+					{ x: "4:00 PM", y: parseInt(device.passengers_at_4_6) || 0 },
+					{ x: "6:00 PM", y: parseInt(device.passengers_at_6_8) || 0 },
+					{ x: "8:00 PM", y: parseInt(device.passengers_at_8_10) || 0 },
+				],
+			}));
+
+			setComparisonData(formattedData);
+		}
+	}, [data]);
+	console.log(data);
 	return (
 		<Card className="w-full h-[500px] m-7 ml-0">
 			<ResponsiveLine
-				data={data}
+				data={comparisonData}
 				margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
 				xScale={{ type: "point" }}
 				yScale={{
