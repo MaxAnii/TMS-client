@@ -15,6 +15,8 @@ type deviceStatusType = {
 }[];
 const DeviceStatus = () => {
 	const [deviceStatus, setDeviceStatus] = useState<deviceStatusType>([]);
+	const [serachQuery, setSerachQuery] = useState<string>("");
+	const [filterData, setFilterData] = useState<deviceStatusType>([]);
 	const getDeviceStatus = async () => {
 		try {
 			const response = await fetch("http://localhost:5000/device/get-status");
@@ -37,7 +39,15 @@ const DeviceStatus = () => {
 
 		return () => clearInterval(intervalId);
 	}, []);
-
+	useEffect(() => {
+		if (!serachQuery.length) setFilterData(deviceStatus);
+		else {
+			const filteredData = deviceStatus.filter((elem) => {
+				if (elem.device_id.includes(serachQuery)) return elem;
+			});
+			setFilterData(filteredData);
+		}
+	}, [serachQuery]);
 	const activeClass = "bg-[#16FF00]";
 	const inActiveClass = "bg-[#FC2947]";
 	return (
@@ -50,6 +60,8 @@ const DeviceStatus = () => {
 							type="text"
 							placeholder="serach by device id"
 							className="w-[200px]"
+							value={serachQuery}
+							onChange={(e) => setSerachQuery(e.target.value)}
 						></Input>
 					</div>
 				</div>
@@ -76,7 +88,7 @@ const DeviceStatus = () => {
 							</TableRow>
 						</TableHeader>
 						<TableBody className="">
-							{deviceStatus.map((elem, index) => {
+							{filterData.map((elem, index) => {
 								return (
 									<TableRow key={index}>
 										<TableCell className="font-medium">

@@ -18,7 +18,8 @@ type tripDataType = {
 }[];
 const VehicleLogContainer = ({ ...props }: { date: string }) => {
 	const [tripData, setTripData] = useState<tripDataType>([]);
-	const [showNoData, setShowNoData] = useState(true);
+	const [filterData, setFilterData] = useState<tripDataType>([]);
+	const [serachQuery, setSearchQuery] = useState<string>("");
 	const getTripDetails = async () => {
 		try {
 			const response = await fetch(`http://localhost:5000/trip/${props.date}`);
@@ -33,7 +34,15 @@ const VehicleLogContainer = ({ ...props }: { date: string }) => {
 	useEffect(() => {
 		getTripDetails();
 	}, [props.date]);
-
+	useEffect(() => {
+		if (!serachQuery.length) setFilterData(tripData);
+		else {
+			const filteredData = tripData.filter((elem) => {
+				if (elem.device_id.includes(serachQuery)) return elem;
+			});
+			setFilterData(filteredData);
+		}
+	}, [serachQuery]);
 	return (
 		<div>
 			<Card className="ml-3  h-[500px] overflow-y-scroll  bg-[#F7F9FB] md:min-w-[600px]">
@@ -42,8 +51,10 @@ const VehicleLogContainer = ({ ...props }: { date: string }) => {
 					<div className="ml-auto">
 						<Input
 							type="text"
-							placeholder="serach by vehicle number"
+							placeholder="serach by device number"
 							className="w-[300px]"
+							value={serachQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
 						></Input>
 					</div>
 				</div>
@@ -61,7 +72,7 @@ const VehicleLogContainer = ({ ...props }: { date: string }) => {
 						</TableHeader>
 
 						<TableBody className="">
-							{tripData.map((elem, index) => {
+							{filterData.map((elem, index) => {
 								return (
 									<TableRow key={index}>
 										<TableCell className="font-medium">
