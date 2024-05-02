@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import {
 	Table,
 	TableBody,
@@ -8,11 +8,35 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Input } from "./ui/input";
+import { useEffect, useState } from "react";
+type tripDataType = {
+	device_id: string;
+	total_trips: string;
+	employees: string;
+	non_employees: string;
+	total_passengers: string;
+}[];
+const VehicleLogContainer = ({ ...props }: { date: string }) => {
+	const [tripData, setTripData] = useState<tripDataType>([]);
+	const [showNoData, setShowNoData] = useState(true);
+	const getTripDetails = async () => {
+		try {
+			const response = await fetch(`http://localhost:5000/trip/${props.date}`);
+			if (response.status === 200) {
+				const data = await response.json();
+				setTripData(data);
+			}
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	};
+	useEffect(() => {
+		getTripDetails();
+	}, [props.date]);
 
-const VehicleLogContainer = () => {
 	return (
 		<div>
-			<Card className="w-[800px]  ml-3  max-h-[500px] overflow-y-scroll  bg-[#F7F9FB]">
+			<Card className="ml-3  h-[500px] overflow-y-scroll  bg-[#F7F9FB] md:min-w-[600px]">
 				<div className="m-5 flex flex-wrap">
 					<div>Vehicle Logs</div>
 					<div className="ml-auto">
@@ -27,7 +51,7 @@ const VehicleLogContainer = () => {
 					<Table>
 						<TableHeader>
 							<TableRow className="">
-								<TableHead className="w-[120px]">Vehicle</TableHead>
+								<TableHead className="w-[120px]">Device Id</TableHead>
 								<TableHead className="w-[100px]">Trips</TableHead>
 								<TableHead className="w-[100px]">Passengers</TableHead>
 
@@ -35,147 +59,21 @@ const VehicleLogContainer = () => {
 								<TableHead className="w-[100px]">Non-Employees</TableHead>
 							</TableRow>
 						</TableHeader>
+
 						<TableBody className="">
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell className="font-medium">INV001</TableCell>
-								<TableCell>13</TableCell>
-								<TableCell>500</TableCell>
-								<TableCell>250</TableCell>
-								<TableCell>250</TableCell>
-							</TableRow>
+							{tripData.map((elem, index) => {
+								return (
+									<TableRow key={index}>
+										<TableCell className="font-medium">
+											{elem.device_id}
+										</TableCell>
+										<TableCell>{elem.total_trips}</TableCell>
+										<TableCell>{elem.total_passengers}</TableCell>
+										<TableCell>{elem.employees}</TableCell>
+										<TableCell>{elem.non_employees}</TableCell>
+									</TableRow>
+								);
+							})}
 						</TableBody>
 					</Table>
 				</CardContent>
