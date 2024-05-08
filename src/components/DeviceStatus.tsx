@@ -24,6 +24,7 @@ const DeviceStatus = () => {
 			if (response.status === 200) {
 				const data = await response.json();
 				setDeviceStatus(data);
+				setFilterData(data);
 			}
 		} catch (error: any) {
 			console.log(error.message);

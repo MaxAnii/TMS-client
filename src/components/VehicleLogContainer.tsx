@@ -26,6 +26,7 @@ const VehicleLogContainer = ({ ...props }: { date: string }) => {
 			if (response.status === 200) {
 				const data = await response.json();
 				setTripData(data);
+				setFilterData(data);
 			}
 		} catch (error: any) {
 			console.log(error.message);
