@@ -22,9 +22,9 @@ const Login = () => {
 						<Input className="bg-white" type="email" required></Input>
 						<label>Password</label>
 						<Input className="bg-white" type="password" required></Input>
-						<Link to="/forgetpassword" className="text-blue-950">
+						<Link to="/forgotpassword" className="text-blue-950">
 							{" "}
-							Forget password?
+							Forgot password?
 						</Link>
 						<Button
 							type="submit"
