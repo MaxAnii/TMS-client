@@ -1,11 +1,6 @@
 import { ResponsivePie } from "@nivo/pie";
 import { Card } from "./ui/card";
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
 const MyResponsivePie = () => {
 	const data = [
 		{
@@ -35,12 +30,12 @@ const MyResponsivePie = () => {
 					borderWidth={1}
 					borderColor={{
 						from: "color",
-						modifiers: [["darker", 0.2]],
+						modifiers: [["brighter", 0.2]],
 					}}
 					arcLinkLabelsSkipAngle={10}
 					arcLinkLabelsTextColor="#333333"
 					arcLinkLabelsThickness={2}
-					arcLinkLabelsColor={{ from: "color" }}
+					arcLinkLabelsColor={{ from: "#999" }}
 					arcLabelsSkipAngle={10}
 					arcLabelsTextColor={{
 						from: "color",
