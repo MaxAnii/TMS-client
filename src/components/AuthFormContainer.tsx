@@ -10,7 +10,7 @@ const AuthFormContainer = ({
 			<img
 				src={logo}
 				alt="logo"
-				className="md:w-[416px] md:h-[360px] w-[300px] h-[250px]"
+				className="md:w-[416px] md:h-[320px] w-[300px] h-[250px]"
 			></img>
 			<div>
 				<h3 className="text-3xl font-semibold">{props.title}</h3>
