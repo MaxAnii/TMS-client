@@ -7,6 +7,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ManageDevices from "./pages/ManageDevices";
 import { Toaster } from "./components/ui/toaster";
+import NewPassword from "./pages/NewPassword";
 
 function App() {
 	return (
@@ -23,8 +24,12 @@ function App() {
 					element={<ForgotPassword></ForgotPassword>}
 				></Route>
 				<Route
-					path="/resetpassword/:token"
+					path="/verifyresettoken"
 					element={<ResetPassword></ResetPassword>}
+				></Route>
+				<Route
+					path="/newpassword"
+					element={<NewPassword></NewPassword>}
 				></Route>
 			</Routes>
 			<Toaster></Toaster>
