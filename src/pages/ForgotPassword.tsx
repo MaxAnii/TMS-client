@@ -14,19 +14,19 @@ import { z } from "zod";
 import { resetLinkSchema } from "../../schema/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
+import { useTransition } from "react";
 const ForgotPassword = () => {
 	const { toast } = useToast();
+	const [ispending, startTransition] = useTransition();
 	const form = useForm<z.infer<typeof resetLinkSchema>>({
 		resolver: zodResolver(resetLinkSchema),
 		defaultValues: {
 			email: "",
 		},
 	});
-	const sendVerificationEmail = async (
-		values: z.infer<typeof resetLinkSchema>
-	) => {
+	const resetMail = async (email: string) => {
 		const response = await fetch(
-			`http://localhost:5000/auth/send-reset-link/${values.email}`
+			`http://localhost:5000/auth/send-reset-link/${email}`
 		);
 		if (response.status === 200) {
 			toast({
@@ -44,6 +44,11 @@ const ForgotPassword = () => {
 			});
 		}
 	};
+	const sendResetLinkMail = async (values: z.infer<typeof resetLinkSchema>) => {
+		startTransition(() => {
+			resetMail(values.email);
+		});
+	};
 	return (
 		<div className=" bg-[#d0d0d0] flex justify-center items-center">
 			<div className="min-h-screen">
@@ -54,7 +59,7 @@ const ForgotPassword = () => {
 				<div className="mt-10 p-2 md:p-0">
 					<Form {...form}>
 						<form
-							onSubmit={form.handleSubmit(sendVerificationEmail)}
+							onSubmit={form.handleSubmit(sendResetLinkMail)}
 							className="space-y-4"
 						>
 							<FormField
@@ -75,7 +80,11 @@ const ForgotPassword = () => {
 									</FormItem>
 								)}
 							/>
-							<Button type="submit" className="w-full mt-6">
+							<Button
+								type="submit"
+								className="w-full mt-6"
+								disabled={ispending}
+							>
 								Get link
 							</Button>
 						</form>
