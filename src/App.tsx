@@ -8,16 +8,37 @@ import ResetPassword from "./pages/ResetPassword";
 import ManageDevices from "./pages/ManageDevices";
 import { Toaster } from "./components/ui/toaster";
 import NewPassword from "./pages/NewPassword";
+import ProtectedRoute from "./lib/ProtectedRoute";
+import AuthRoute from "./lib/AuthRoute";
 
 function App() {
 	return (
 		<>
 			<Routes>
-				<Route path="/" element={<Login></Login>}></Route>
-				<Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+				<Route
+					path="/"
+					element={
+						<AuthRoute>
+							<Login></Login>
+						</AuthRoute>
+					}
+				></Route>
+
+				<Route
+					path="/dashboard"
+					element={
+						<ProtectedRoute>
+							<Dashboard></Dashboard>
+						</ProtectedRoute>
+					}
+				></Route>
 				<Route
 					path="/managedevices"
-					element={<ManageDevices></ManageDevices>}
+					element={
+						<ProtectedRoute>
+							<ManageDevices></ManageDevices>
+						</ProtectedRoute>
+					}
 				></Route>
 				<Route
 					path="/forgotpassword"
