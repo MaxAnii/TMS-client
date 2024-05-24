@@ -29,7 +29,10 @@ const ManageDevices = () => {
 	const [serachQuery, setSearchQuery] = useState("");
 	const getDeviceData = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/device/list");
+			const response = await fetch("http://localhost:5000/device/list", {
+				method: "GET",
+				credentials: "include",
+			});
 			if (response.status === 200) {
 				const data = await response.json();
 				console.log(data);

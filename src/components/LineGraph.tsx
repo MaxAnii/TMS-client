@@ -21,7 +21,11 @@ const MyResponsiveLine = ({ ...props }: { date: string }) => {
 	const getComparisonData = async () => {
 		try {
 			const response = await fetch(
-				`http://localhost:5000/passenger/comparison/${props.date}`
+				`http://localhost:5000/passenger/comparison/${props.date}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
 			);
 			if (response.status === 200) {
 				const jsonData = await response.json();

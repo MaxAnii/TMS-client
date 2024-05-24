@@ -26,7 +26,11 @@ const ForgotPassword = () => {
 	});
 	const resetMail = async (email: string) => {
 		const response = await fetch(
-			`http://localhost:5000/auth/send-reset-link/${email}`
+			`http://localhost:5000/auth/send-reset-link/${email}`,
+			{
+				method: "GET",
+				credentials: "include",
+			}
 		);
 		if (response.status === 200) {
 			toast({

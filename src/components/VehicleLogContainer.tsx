@@ -22,7 +22,10 @@ const VehicleLogContainer = ({ ...props }: { date: string }) => {
 	const [serachQuery, setSearchQuery] = useState<string>("");
 	const getTripDetails = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/trip/${props.date}`);
+			const response = await fetch(`http://localhost:5000/trip/${props.date}`, {
+				method: "GET",
+				credentials: "include",
+			});
 			if (response.status === 200) {
 				const data = await response.json();
 				setTripData(data);

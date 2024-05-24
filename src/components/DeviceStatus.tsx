@@ -19,8 +19,10 @@ const DeviceStatus = () => {
 	const [filterData, setFilterData] = useState<deviceStatusType>([]);
 	const getDeviceStatus = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/device/get-status");
-			console.log(response.status);
+			const response = await fetch("http://localhost:5000/device/get-status", {
+				method: "GET",
+				credentials: "include",
+			});
 			if (response.status === 200) {
 				const data = await response.json();
 				setDeviceStatus(data);

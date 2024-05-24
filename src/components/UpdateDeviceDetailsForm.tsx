@@ -45,6 +45,7 @@ const UpdateDeviceDetailForm = ({
 					headers: {
 						"Content-Type": "application/json",
 					},
+					credentials: "include",
 					body: JSON.stringify({ ...values, id: props.id }),
 				}
 			);

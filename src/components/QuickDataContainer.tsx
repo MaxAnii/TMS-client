@@ -18,7 +18,11 @@ const QuickDataContainer = ({ ...props }: { date: string }) => {
 				totalDevices: "0",
 			});
 			const response = await fetch(
-				`http://localhost:5000/quick-data/${props.date}`
+				`http://localhost:5000/quick-data/${props.date}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
 			);
 
 			if (response.status === 200) {

@@ -13,7 +13,11 @@ const ResetPassword = () => {
 	const [isPending, startTransition] = useTransition();
 	const verfiyToken = async () => {
 		const response = await fetch(
-			`http://localhost:5000/auth/verfiy-reset-token/${token}`
+			`http://localhost:5000/auth/verfiy-reset-token/${token}`,
+			{
+				method: "GET",
+				credentials: "include",
+			}
 		);
 		if (response.status === 200) {
 			navigate(`/newpassword?token=${token}`);

@@ -33,10 +33,11 @@ const Login = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(values),
+			credentials: "include",
 		});
 
 		if (response.status === 200) {
-			navigate("/dashboard");
+			window.location.reload();
 		} else {
 			const data = await response.json();
 			setMessage(data.message);
